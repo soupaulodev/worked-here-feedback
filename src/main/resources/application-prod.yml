@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/soapdb
+    driver-class-name: org.postgresql.Driver
+    username: docker
+    password: docker
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  main:
+    allow-bean-definition-overriding: true
+    log-startup-info: false
+jwt:
+  issuer: your-issuer
+  secret: your-secret
+  expiration: 3000 # Your Expiration time in seconds to production
+cors:
+  allowed:
+    origins: "*"
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: off
+        trace: off
+server:
+  port: 8080 # Your server port to production
