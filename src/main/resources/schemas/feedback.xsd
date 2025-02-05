@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://soupaulodev.com.br/feedback"
+           xmlns:tns="https://soupaulodev.com.br/feedback"
+           elementFormDefault="qualified">
+
+    <!-- Create Feedback -->
+    <xs:element name="CreateFeedbackRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="company" type="xs:string"/>
+                <xs:element name="userId" type="xs:string"/>
+                <xs:element name="rating" type="xs:int"/>
+                <xs:element name="comment" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CreateFeedbackResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+                <xs:element name="feedbackId" type="xs:long"/>
+                <xs:element name="feedback" type="tns:feedback"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Update Feedback  -->
+    <xs:element name="UpdateFeedbackRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedbackId" type="xs:long"/>
+                <xs:element name="rating" type="xs:int" minOccurs="0"/>
+                <xs:element name="comment" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="UpdateFeedbackResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  Delete Feedback  -->
+    <xs:element name="DeleteFeedbackRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedbackId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="DeleteFeedbackResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!--  List Feedback by Company  -->
+    <xs:element name="ListFeedbackByCompanyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="company" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ListFeedbackByCompanyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedbacks" type="tns:feedbackList"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--  List Companies  -->
+    <xs:element name="ListCompaniesRequest">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ListCompaniesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="companies" type="companyList"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Types -->
+    <xs:complexType name="feedback">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="company" type="xs:string"/>
+            <xs:element name="rating" type="xs:int"/>
+            <xs:element name="comment" type="xs:string"/>
+            <xs:element name="createdAt" type="xs:dateTime"/>
+            <xs:element name="updatedAt" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="feedbackList">
+        <xs:sequence>
+            <xs:element name="feedback" type="tns:feedback" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="companyList">
+        <xs:sequence>
+            <xs:element name="company" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
