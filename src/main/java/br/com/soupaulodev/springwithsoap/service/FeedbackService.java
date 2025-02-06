@@ -30,6 +30,8 @@ public class FeedbackService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         FeedbackEntity feedbackEntity = feedbackMapper.createRequestToEntity(request, user);
+        feedbackEntity.setId(UUID.randomUUID());
+
         FeedbackEntity savedFeedback = feedbackRepository.save(feedbackEntity);
         Feedback feedback = feedbackMapper.entityToTypeObj(savedFeedback);
         CreateFeedbackResponse response = feedbackMapper.typeObjToCreateResponse(feedback);

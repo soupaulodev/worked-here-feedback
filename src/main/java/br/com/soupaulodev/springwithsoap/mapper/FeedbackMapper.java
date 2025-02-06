@@ -7,14 +7,12 @@ import br.com.soupaulodev.springwithsoap.util.DateTimeUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class FeedbackMapper {
 
     public FeedbackEntity createRequestToEntity(CreateFeedbackRequest request, UserEntity user) {
         FeedbackEntity feedbackEntity = new FeedbackEntity();
-        feedbackEntity.setId(UUID.randomUUID());
         feedbackEntity.setCompany(request.getCompany());
         feedbackEntity.setRating(request.getRating());
         feedbackEntity.setComment(request.getComment());
