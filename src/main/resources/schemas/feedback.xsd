@@ -82,7 +82,7 @@
     <xs:element name="ListCompaniesResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="companies" type="companyList"/>
+                <xs:element name="companies" type="tns:companyList"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
