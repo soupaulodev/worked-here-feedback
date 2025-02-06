@@ -63,7 +63,7 @@ public class FeedbackService {
         FeedbackEntity feedback = feedbackRepository.findById(UUID.fromString(request.getFeedbackId()))
                 .orElseThrow(() -> new RuntimeException("Feedback not found"));
 
-        if (request.getRating() != null && request.getComment() != null) {
+        if (request.getRating() == null && request.getComment() == null) {
             throw new IllegalArgumentException("All fields are null");
         }
 
