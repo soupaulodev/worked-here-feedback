@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,7 +17,7 @@ public class FeedbackEntity implements Serializable {
     private static final Long SERIAL_VERSION_UID = 1L;
 
     @Id
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
     private String company;

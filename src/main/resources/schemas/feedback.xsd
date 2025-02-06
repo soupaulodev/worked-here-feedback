@@ -19,7 +19,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="status" type="xs:string"/>
-                <xs:element name="feedbackId" type="xs:long"/>
+                <xs:element name="feedbackId" type="xs:string"/>
                 <xs:element name="feedback" type="tns:feedback"/>
             </xs:sequence>
         </xs:complexType>
@@ -29,7 +29,7 @@
     <xs:element name="UpdateFeedbackRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="feedbackId" type="xs:long"/>
+                <xs:element name="feedbackId" type="xs:string"/>
                 <xs:element name="rating" type="xs:int" minOccurs="0"/>
                 <xs:element name="comment" type="xs:string" minOccurs="0"/>
             </xs:sequence>
@@ -47,7 +47,7 @@
     <xs:element name="DeleteFeedbackRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="feedbackId" type="xs:long"/>
+                <xs:element name="feedbackId" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -90,7 +90,7 @@
     <!-- Types -->
     <xs:complexType name="feedback">
         <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
+            <xs:element name="id" type="xs:string"/>
             <xs:element name="company" type="xs:string"/>
             <xs:element name="rating" type="xs:int"/>
             <xs:element name="comment" type="xs:string"/>

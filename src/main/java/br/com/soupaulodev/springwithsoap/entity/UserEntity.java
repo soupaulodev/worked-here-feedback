@@ -29,7 +29,7 @@ public class UserEntity {
     private boolean active;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Map<Long, FeedbackEntity> feedbacks = new HashMap<>();
+    private Map<UUID, FeedbackEntity> feedbacks = new HashMap<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
