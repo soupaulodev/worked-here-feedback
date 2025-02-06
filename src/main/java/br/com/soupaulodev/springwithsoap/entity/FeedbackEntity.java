@@ -12,9 +12,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "feedback_tb")
-public class FeedbackEntity implements Serializable {
-
-    private static final Long SERIAL_VERSION_UID = 1L;
+public class FeedbackEntity {
 
     @Id
     private UUID id;
