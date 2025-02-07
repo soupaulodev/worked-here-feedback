@@ -27,7 +27,7 @@ public class UserEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetUserInfoRequest")
     @ResponsePayload
     public GetUserInfoResponse getUserInfo(@RequestPayload GetUserInfoRequest request) {
-        return userService.getUserInfo(UUID.fromString(request.getUserId()));
+        return userService.getUserInfo(request.getUsername());
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UpdateUserRequest")

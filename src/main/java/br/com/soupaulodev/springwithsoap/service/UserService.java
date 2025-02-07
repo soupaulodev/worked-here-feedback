@@ -44,10 +44,15 @@ public class UserService {
         return response;
     }
 
-    public GetUserInfoResponse getUserInfo(UUID userId) {
-        UserEntity userEntity = userRepository.findById(userId)
+    public GetUserInfoResponse getUserInfo(String username) {
+        if (username == null) {
+            logger.info("Parameter username is null");
+            throw new IllegalArgumentException("Parameter username can't be null");
+        }
+
+        UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    logger.warn("User with id {} not found", userId);
+                    logger.warn("User with username {} not found", username);
                     return new RuntimeException("User not found");
                 });
 
@@ -56,7 +61,7 @@ public class UserService {
 
         GetUserInfoResponse response = userMapper.typeObjToGetUserInfoResponse(user);
         response.setOperationStatus(OperationStatus.SUCESS.toString());
-        logger.info("User with id {} found successfully", userId);
+        logger.info("User with username {} found successfully", username);
 
         return response;
     }
