@@ -18,7 +18,7 @@
     <xs:element name="CreateFeedbackResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
                 <xs:element name="feedbackId" type="xs:string"/>
                 <xs:element name="feedback" type="tns:feedback"/>
             </xs:sequence>
@@ -38,7 +38,7 @@
     <xs:element name="UpdateFeedbackResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -54,7 +54,7 @@
     <xs:element name="DeleteFeedbackResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -70,6 +70,7 @@
     <xs:element name="ListFeedbackByCompanyResponse">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="operationStatus" type="xs:string"/>
                 <xs:element name="feedbacks" type="tns:feedbackList"/>
             </xs:sequence>
         </xs:complexType>
@@ -82,6 +83,7 @@
     <xs:element name="ListCompaniesResponse">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="operationStatus" type="xs:string"/>
                 <xs:element name="companies" type="tns:companyList"/>
             </xs:sequence>
         </xs:complexType>

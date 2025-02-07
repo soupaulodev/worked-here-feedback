@@ -2,6 +2,7 @@ package br.com.soupaulodev.springwithsoap.service;
 
 import br.com.soupaulodev.springwithsoap.entity.FeedbackEntity;
 import br.com.soupaulodev.springwithsoap.entity.UserEntity;
+import br.com.soupaulodev.springwithsoap.enums.OperationStatus;
 import br.com.soupaulodev.springwithsoap.generated.*;
 import br.com.soupaulodev.springwithsoap.mapper.FeedbackMapper;
 import br.com.soupaulodev.springwithsoap.repository.FeedbackRepository;
@@ -35,7 +36,7 @@ public class FeedbackService {
         FeedbackEntity savedFeedback = feedbackRepository.save(feedbackEntity);
         Feedback feedback = feedbackMapper.entityToTypeObj(savedFeedback);
         CreateFeedbackResponse response = feedbackMapper.typeObjToCreateResponse(feedback);
-        response.setStatus("201");
+        response.setOperationStatus(OperationStatus.SUCESS.toString());
 
         return response;
     }
@@ -73,7 +74,7 @@ public class FeedbackService {
         feedbackRepository.save(feedback);
 
         UpdateFeedbackResponse response = new UpdateFeedbackResponse();
-        response.setStatus("203");
+        response.setOperationStatus(OperationStatus.SUCESS.toString());
 
         return response;
     }
@@ -85,7 +86,7 @@ public class FeedbackService {
         feedbackRepository.delete(feedback);
 
         DeleteFeedbackResponse response = new DeleteFeedbackResponse();
-        response.setStatus("201");
+        response.setOperationStatus(OperationStatus.SUCESS.toString());
 
         return response;
     }
