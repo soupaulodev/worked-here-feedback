@@ -16,18 +16,17 @@ spring:
   main:
     allow-bean-definition-overriding: true
     log-startup-info: true
-jwt:
-  issuer: your-issuer
-  secret: your-secret
-  expiration: 3000 # Your Expiration time in seconds to development
-cors:
-  allowed:
-    origins: "*"
 logging:
   level:
     org:
+      springframework:
+        ws:
+          server:
+            endpoint: DEBUG
       hibernate:
         SQL: debug
         type: trace
+      apache:
+        cxf: INFO
 server:
   port: 8080 # Your server port to development
