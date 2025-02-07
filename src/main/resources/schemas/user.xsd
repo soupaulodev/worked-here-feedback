@@ -16,7 +16,7 @@
     <xs:element name="CreateUserResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
                 <xs:element name="userId" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
@@ -33,7 +33,7 @@
     <xs:element name="GetUserInfoResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
                 <xs:element name="user" type="tns:user"/>
             </xs:sequence>
         </xs:complexType>
@@ -47,13 +47,14 @@
                 <xs:element name="email" type="xs:string"/>
                 <xs:element name="username" type="xs:string"/>
                 <xs:element name="password" type="xs:string"/>
+                <xs:element name="active" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <xs:element name="UpdateUserResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -69,7 +70,7 @@
     <xs:element name="DeleteUserResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="status" type="xs:string"/>
+                <xs:element name="operationStatus" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
