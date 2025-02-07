@@ -1,5 +1,6 @@
 package br.com.soupaulodev.springwithsoap.security;
 
+import br.com.soupaulodev.springwithsoap.security.interceptors.CxfWsSecurityInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.wss4j.dom.handler.WSHandlerConstants;

@@ -1,4 +1,4 @@
-package br.com.soupaulodev.springwithsoap.security;
+package br.com.soupaulodev.springwithsoap.security.interceptors;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.cxf.binding.soap.SoapMessage;
@@ -15,7 +15,16 @@ public class CxfWsSecurityInterceptor implements EndpointInterceptor {
     @Override
     public boolean handleRequest(MessageContext messageContext, Object o) throws Exception {
         SoapMessage soapMessage = (SoapMessage) messageContext.getProperty("org.apache.cxf.message.Message");
+
         if (soapMessage != null) {
+            String soapAction = (String) messageContext.getProperty("org.apache.cxf.message.Message");
+
+            cxfInterceptor.handleMessage(soapMessage);
+
+            if(soapAction != null && soapAction.contains("createUser")) {
+                return true;
+            }
+
             try {
                 cxfInterceptor.handleMessage(soapMessage);
             } catch (Fault fault) {
