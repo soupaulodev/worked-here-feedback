@@ -14,7 +14,7 @@ public class UserMapper {
         UserEntity entity = new UserEntity();
         entity.setEmail(request.getEmail());
         entity.setUsername(request.getUsername());
-        entity.setActive(false);
+        entity.setActive(true);
         return entity;
     }
 
