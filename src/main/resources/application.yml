@@ -3,15 +3,3 @@ spring:
     name: spring-with-soap
   profiles:
     active: dev
-springdoc:
-  swagger-ui:
-    groups-order: asc
-    tags-sorter: alpha
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: "*"

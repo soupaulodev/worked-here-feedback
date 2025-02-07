@@ -30,3 +30,15 @@ logging:
         cxf: INFO
 server:
   port: 8080 # Your server port to development
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,loggers
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
