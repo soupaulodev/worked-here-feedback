@@ -24,8 +24,6 @@ public class UserService {
     private final UserMapper userMapper;
 
     public CreateUserResponse createUser(CreateUserRequest request) {
-        logger.info("Receive request to create new user");
-
         userRepository.findByUsernameOrEmail(request.getUsername(), request.getEmail())
                 .ifPresent((user) -> {
                     logger.warn("Can't create new user. Username or email already exists");

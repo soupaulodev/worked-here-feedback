@@ -9,6 +9,8 @@ import br.com.soupaulodev.springwithsoap.repository.FeedbackRepository;
 import br.com.soupaulodev.springwithsoap.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,17 +20,19 @@ import java.util.UUID;
 @Transactional
 public class FeedbackService {
 
+    private static final Logger logger = LoggerFactory.getLogger(FeedbackService.class);
+
     private final FeedbackRepository feedbackRepository;
     private final UserRepository userRepository;
     private final FeedbackMapper feedbackMapper;
 
     public CreateFeedbackResponse createFeedback(CreateFeedbackRequest request) {
-        String userIdStr = request.getUserId();
-        if (userIdStr == null || userIdStr.isEmpty()) {
-            throw new IllegalArgumentException("User ID cannot be null or empty");
-        }
         UserEntity user = userRepository.findById(UUID.fromString(request.getUserId()))
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> {
+                    logger.warn("User with id {} not found", request.getUserId());
+                    return new RuntimeException("User not found");
+                });
+        logger.info("User found");
 
         FeedbackEntity feedbackEntity = feedbackMapper.createRequestToEntity(request, user);
         feedbackEntity.setId(UUID.randomUUID());
@@ -38,12 +42,14 @@ public class FeedbackService {
         CreateFeedbackResponse response = feedbackMapper.typeObjToCreateResponse(feedback);
         response.setOperationStatus(OperationStatus.SUCESS.toString());
 
+        logger.info("Feedback created sucessfully with id {}", feedback.getId());
         return response;
     }
 
     public ListCompaniesResponse getCompanies() {
         CompanyList companyList = feedbackMapper.stringListToCompanyList(feedbackRepository.findAllCompanies());
 
+        logger.info("Company list found successfully with {} elements", (long) companyList.getCompany().size());
         return feedbackMapper.companyListToListCompaniesResponse(companyList);
     }
 
@@ -57,14 +63,21 @@ public class FeedbackService {
                         .toList());
         ListFeedbackByCompanyResponse response = new ListFeedbackByCompanyResponse();
         response.setFeedbacks(feedbackList);
+
+        logger.info("Feedback list found successfully with {} elements", (long) feedbackList.getFeedback().size());
         return response;
     }
 
     public UpdateFeedbackResponse updateFeedback(UpdateFeedbackRequest request) {
         FeedbackEntity feedback = feedbackRepository.findById(UUID.fromString(request.getFeedbackId()))
-                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+                .orElseThrow(() -> {
+                    logger.warn("Feedback with id {} not found", request.getFeedbackId());
+                    return new RuntimeException("Feedback not found");
+                });
+        logger.info("Feedback found");
 
         if (request.getRating() == null && request.getComment() == null) {
+            logger.warn("All fields are null");
             throw new IllegalArgumentException("All fields are null");
         }
 
@@ -76,18 +89,24 @@ public class FeedbackService {
         UpdateFeedbackResponse response = new UpdateFeedbackResponse();
         response.setOperationStatus(OperationStatus.SUCESS.toString());
 
+        logger.info("Feedback with id {} updated", feedback.getId());
         return response;
     }
 
     public DeleteFeedbackResponse deleteFeedback(UUID feedbackId) {
         FeedbackEntity feedback = feedbackRepository.findById(feedbackId)
-                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+                .orElseThrow(() -> {
+                    logger.warn("Feedback with id {} not found", feedbackId);
+                    return new RuntimeException("Feedback not found");
+                });
+        logger.info("Feedback found");
 
         feedbackRepository.delete(feedback);
 
         DeleteFeedbackResponse response = new DeleteFeedbackResponse();
         response.setOperationStatus(OperationStatus.SUCESS.toString());
 
+        logger.info("Feedback with id {} deleted successfully", feedbackId);
         return response;
     }
 }
