@@ -5,13 +5,14 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "feedback_tb")
-public class FeedbackEntity {
+public class FeedbackEntity implements Serializable {
 
     @Id
     private UUID id;
