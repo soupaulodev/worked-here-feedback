@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -46,6 +48,7 @@ public class FeedbackService {
         return response;
     }
 
+    @Cacheable("companies")
     public ListCompaniesResponse getCompanies() {
         CompanyList companyList = feedbackMapper.stringListToCompanyList(feedbackRepository.findAllCompanies());
 
@@ -53,6 +56,7 @@ public class FeedbackService {
         return feedbackMapper.companyListToListCompaniesResponse(companyList);
     }
 
+    @Cacheable("feedbacks")
     public ListFeedbackByCompanyResponse getFeedbackByCompany(String company) {
         FeedbackList feedbackList = new FeedbackList();
         feedbackList.getFeedback()
@@ -68,6 +72,7 @@ public class FeedbackService {
         return response;
     }
 
+    @CachePut("feedbacks")
     public UpdateFeedbackResponse updateFeedback(UpdateFeedbackRequest request) {
         FeedbackEntity feedback = feedbackRepository.findById(UUID.fromString(request.getFeedbackId()))
                 .orElseThrow(() -> {

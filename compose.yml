@@ -12,5 +12,16 @@ services:
       - POSTGRES_DB=feedback
     volumes:
       - feedback_pg_data:/bitnami/postgresql
+  redis:
+    container_name: feedback_redis
+    image: bitnami/redis:latest
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - "feedback_redis_data:/bitnami/redis/data"
 volumes:
   feedback_pg_data:
+  feedback_redis_data:

@@ -16,6 +16,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
     log-startup-info: true
+  cache:
+    type: redis
+    redis:
+      time-to-live: 604800
 logging:
   level:
     org:
