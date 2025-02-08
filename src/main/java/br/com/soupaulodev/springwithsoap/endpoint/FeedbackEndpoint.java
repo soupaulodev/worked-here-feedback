@@ -33,7 +33,7 @@ public class FeedbackEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ListFeedbackByCompanyRequest")
     @ResponsePayload
     public ListFeedbackByCompanyResponse listFeedbackByCompany(@RequestPayload ListFeedbackByCompanyRequest request) {
-        return feedbackService.getFeedbackByCompany(request.getCompany());
+        return feedbackService.getFeedbackByCompany(request);
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UpdateFeedbackRequest")

@@ -13,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -57,11 +61,13 @@ public class FeedbackService {
     }
 
     @Cacheable("feedbacks")
-    public ListFeedbackByCompanyResponse getFeedbackByCompany(String company) {
+    public ListFeedbackByCompanyResponse getFeedbackByCompany(ListFeedbackByCompanyRequest request) {
+        Pageable pageRequest = PageRequest.of(request.getPage(), request.getSize(), Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<FeedbackEntity> feedbackEntityList = feedbackRepository.findByCompany(request.getCompany(), pageRequest);
+
         FeedbackList feedbackList = new FeedbackList();
         feedbackList.getFeedback()
-                .addAll(feedbackRepository
-                        .findByCompany(company)
+                .addAll(feedbackEntityList
                         .stream()
                         .map(feedbackMapper::entityToTypeObj)
                         .toList());
