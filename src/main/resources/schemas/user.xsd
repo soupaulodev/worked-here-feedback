@@ -2,64 +2,98 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="https://soupaulodev.com.br/user"
            xmlns:tns="https://soupaulodev.com.br/user"
+           xmlns:fault="https://soupaulodev.com.br/fault"
            elementFormDefault="qualified">
-    <!--  Create User  -->
+
+    <xs:import namespace="https://soupaulodev.com.br/fault" schemaLocation="fault.xsd"/>
+
+    <!-- Simple Types -->
+    <xs:simpleType name="emailType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="255"/>
+            <xs:pattern value="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="usernameType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="50"/>
+            <xs:pattern value="^[a-zA-Z0-9_]+$"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="passwordType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="8"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Create User -->
     <xs:element name="CreateUserRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="email" type="xs:string"/>
-                <xs:element name="username" type="xs:string"/>
-                <xs:element name="password" type="xs:string"/>
+                <xs:element name="email" type="tns:emailType"/>
+                <xs:element name="username" type="tns:usernameType"/>
+                <xs:element name="password" type="tns:passwordType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="CreateUserResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="operationStatus" type="xs:string"/>
-                <xs:element name="userId" type="xs:string"/>
+                <xs:element name="userId" type="xs:string" minOccurs="0"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--  Get User Info  -->
+    <!-- Get User Info -->
     <xs:element name="GetUserInfoRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="username" type="xs:string"/>
+                <xs:element name="username" type="tns:usernameType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="GetUserInfoResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="operationStatus" type="xs:string"/>
-                <xs:element name="user" type="tns:user"/>
+                <xs:element name="user" type="tns:user" minOccurs="0"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--  Update User  -->
+    <!-- Update User -->
     <xs:element name="UpdateUserRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="userId" type="xs:string"/>
-                <xs:element name="email" type="xs:string"/>
-                <xs:element name="username" type="xs:string"/>
-                <xs:element name="password" type="xs:string"/>
-                <xs:element name="active" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="UpdateUserResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="operationStatus" type="xs:string"/>
+                <xs:element name="email" type="tns:emailType" minOccurs="0"/>
+                <xs:element name="username" type="tns:usernameType" minOccurs="0"/>
+                <xs:element name="password" type="tns:passwordType" minOccurs="0"/>
+                <xs:element name="active" type="xs:boolean"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--  Delete User  -->
+    <xs:element name="UpdateUserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="operationStatus" type="xs:string"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Delete User -->
     <xs:element name="DeleteUserRequest">
         <xs:complexType>
             <xs:sequence>
@@ -67,22 +101,25 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="DeleteUserResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="operationStatus" type="xs:string"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--User Type-->
+    <!-- Complex Type from User -->
     <xs:complexType name="user">
         <xs:sequence>
             <xs:element name="id" type="xs:string"/>
-            <xs:element name="email" type="xs:string"/>
-            <xs:element name="username" type="xs:string"/>
+            <xs:element name="email" type="tns:emailType"/>
+            <xs:element name="username" type="tns:usernameType"/>
             <xs:element name="createdAt" type="xs:dateTime"/>
             <xs:element name="updatedAt" type="xs:dateTime"/>
         </xs:sequence>
     </xs:complexType>
+
 </xs:schema>

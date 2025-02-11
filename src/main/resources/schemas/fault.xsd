@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://soupaulodev.com.br/fault"
+           xmlns:tns="https://soupaulodev.com.br/fault"
+           elementFormDefault="qualified">
+
+    <xs:complexType name="FaultType">
+        <xs:sequence>
+            <xs:element name="faultCode" type="xs:string"/>
+            <xs:element name="faultMessage" type="xs:string"/>
+            <xs:element name="detail" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Fault" type="tns:FaultType"/>
+</xs:schema>

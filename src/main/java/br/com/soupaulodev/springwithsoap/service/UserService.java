@@ -2,6 +2,8 @@ package br.com.soupaulodev.springwithsoap.service;
 
 import br.com.soupaulodev.springwithsoap.entity.UserEntity;
 import br.com.soupaulodev.springwithsoap.enums.OperationStatus;
+import br.com.soupaulodev.springwithsoap.exception.cases.ResourceNotFound;
+import br.com.soupaulodev.springwithsoap.exception.cases.ResourceAlreadyException;
 import br.com.soupaulodev.springwithsoap.generated.*;
 import br.com.soupaulodev.springwithsoap.mapper.UserMapper;
 import br.com.soupaulodev.springwithsoap.repository.UserRepository;
@@ -27,7 +29,7 @@ public class UserService {
         userRepository.findByUsernameOrEmail(request.getUsername(), request.getEmail())
                 .ifPresent((user) -> {
                     logger.warn("Can't create new user. Username or email already exists");
-                    throw new RuntimeException("Username or Email already exists");
+                    throw new ResourceAlreadyException("Username or Email already exists");
                 });
 
         UserEntity userEntity = userMapper.createRequestToEntity(request);
@@ -53,7 +55,7 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
                     logger.warn("User with username {} not found", username);
-                    return new RuntimeException("User not found");
+                    return new ResourceNotFound("User not found");
                 });
 
 
@@ -67,8 +69,7 @@ public class UserService {
     }
 
     public UpdateUserResponse updateUser(UpdateUserRequest request) {
-        if (request.getEmail() == null || request.getUsername() == null
-                || request.getPassword() == null || request.getActive() == null) {
+        if (request.getEmail() == null || request.getUsername() == null || request.getPassword() == null) {
             logger.warn("All fields are null. Can't update");
             throw new IllegalArgumentException("All fields are null");
         }
@@ -76,15 +77,12 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(UUID.fromString(request.getUserId()))
                 .orElseThrow(() -> {
                     logger.warn("User with id {} not found to update", request.getUserId());
-                    return new RuntimeException("User not found");
+                    return new ResourceNotFound("User not found");
                 });
 
         userEntity.setEmail(request.getEmail() != null ? request.getEmail() : userEntity.getEmail());
         userEntity.setUsername(request.getUsername() != null ? request.getUsername() : userEntity.getUsername());
         userEntity.setPassword(request.getPassword() != null ? request.getPassword() : userEntity.getPassword());
-        userEntity.setActive(request.getActive() != null
-                ? Boolean.parseBoolean(request.getActive().toLowerCase())
-                : userEntity.isActive());
 
         userRepository.save(userEntity);
 
@@ -99,7 +97,7 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> {
                     logger.warn("User with id {} not found", userId);
-                    return new RuntimeException("User not found");
+                    return new ResourceNotFound("User not found");
                 });
 
         userRepository.delete(userEntity);

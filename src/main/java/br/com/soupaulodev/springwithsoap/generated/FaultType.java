@@ -11,23 +11,22 @@ package br.com.soupaulodev.springwithsoap.generated;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for FaultType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType&gt;
+ * &lt;complexType name="FaultType"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="email" type="{https://soupaulodev.com.br/user}emailType"/&gt;
- *         &lt;element name="username" type="{https://soupaulodev.com.br/user}usernameType"/&gt;
- *         &lt;element name="password" type="{https://soupaulodev.com.br/user}passwordType"/&gt;
+ *         &lt;element name="faultCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="faultMessage" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="detail" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -37,91 +36,89 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "email",
-    "username",
-    "password"
+@XmlType(name = "FaultType", namespace = "https://soupaulodev.com.br/fault", propOrder = {
+    "faultCode",
+    "faultMessage",
+    "detail"
 })
-@XmlRootElement(name = "CreateUserRequest", namespace = "https://soupaulodev.com.br/user")
-public class CreateUserRequest {
+public class FaultType {
 
-    @XmlElement(namespace = "https://soupaulodev.com.br/user", required = true)
-    protected String email;
-    @XmlElement(namespace = "https://soupaulodev.com.br/user", required = true)
-    protected String username;
-    @XmlElement(namespace = "https://soupaulodev.com.br/user", required = true)
-    protected String password;
+    @XmlElement(required = true)
+    protected String faultCode;
+    @XmlElement(required = true)
+    protected String faultMessage;
+    protected String detail;
 
     /**
-     * Gets the value of the email property.
+     * Gets the value of the faultCode property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getEmail() {
-        return email;
+    public String getFaultCode() {
+        return faultCode;
     }
 
     /**
-     * Sets the value of the email property.
+     * Sets the value of the faultCode property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setEmail(String value) {
-        this.email = value;
+    public void setFaultCode(String value) {
+        this.faultCode = value;
     }
 
     /**
-     * Gets the value of the username property.
+     * Gets the value of the faultMessage property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getUsername() {
-        return username;
+    public String getFaultMessage() {
+        return faultMessage;
     }
 
     /**
-     * Sets the value of the username property.
+     * Sets the value of the faultMessage property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setUsername(String value) {
-        this.username = value;
+    public void setFaultMessage(String value) {
+        this.faultMessage = value;
     }
 
     /**
-     * Gets the value of the password property.
+     * Gets the value of the detail property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getPassword() {
-        return password;
+    public String getDetail() {
+        return detail;
     }
 
     /**
-     * Sets the value of the password property.
+     * Sets the value of the detail property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setPassword(String value) {
-        this.password = value;
+    public void setDetail(String value) {
+        this.detail = value;
     }
 
 }

@@ -3,6 +3,7 @@ package br.com.soupaulodev.springwithsoap.service;
 import br.com.soupaulodev.springwithsoap.entity.FeedbackEntity;
 import br.com.soupaulodev.springwithsoap.entity.UserEntity;
 import br.com.soupaulodev.springwithsoap.enums.OperationStatus;
+import br.com.soupaulodev.springwithsoap.exception.cases.ResourceNotFound;
 import br.com.soupaulodev.springwithsoap.generated.*;
 import br.com.soupaulodev.springwithsoap.mapper.FeedbackMapper;
 import br.com.soupaulodev.springwithsoap.repository.FeedbackRepository;
@@ -36,7 +37,7 @@ public class FeedbackService {
         UserEntity user = userRepository.findById(UUID.fromString(request.getUserId()))
                 .orElseThrow(() -> {
                     logger.warn("User with id {} not found", request.getUserId());
-                    return new RuntimeException("User not found");
+                    return new ResourceNotFound("User not found");
                 });
         logger.info("User found");
 
@@ -83,7 +84,7 @@ public class FeedbackService {
         FeedbackEntity feedback = feedbackRepository.findById(UUID.fromString(request.getFeedbackId()))
                 .orElseThrow(() -> {
                     logger.warn("Feedback with id {} not found", request.getFeedbackId());
-                    return new RuntimeException("Feedback not found");
+                    return new ResourceNotFound("Feedback not found");
                 });
         logger.info("Feedback found");
 
@@ -108,7 +109,7 @@ public class FeedbackService {
         FeedbackEntity feedback = feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> {
                     logger.warn("Feedback with id {} not found", feedbackId);
-                    return new RuntimeException("Feedback not found");
+                    return new ResourceNotFound("Feedback not found");
                 });
         logger.info("Feedback found");
 

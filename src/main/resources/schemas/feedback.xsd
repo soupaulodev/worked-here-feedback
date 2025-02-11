@@ -2,48 +2,82 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="https://soupaulodev.com.br/feedback"
            xmlns:tns="https://soupaulodev.com.br/feedback"
+           xmlns:fault="https://soupaulodev.com.br/fault"
            elementFormDefault="qualified">
+
+    <xs:import namespace="https://soupaulodev.com.br/fault" schemaLocation="fault.xsd"/>
+
+    <!-- Simple Types -->
+    <xs:simpleType name="ratingType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="commentType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="companyType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positiveInt">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <!-- Create Feedback -->
     <xs:element name="CreateFeedbackRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="company" type="xs:string"/>
-                <xs:element name="userId" type="xs:string"/>
-                <xs:element name="rating" type="xs:int"/>
-                <xs:element name="comment" type="xs:string"/>
+                <xs:element name="company" type="tns:companyType"/>
+                <xs:element name="userId" type="tns:companyType"/>
+                <xs:element name="rating" type="tns:ratingType"/>
+                <xs:element name="comment" type="tns:commentType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="CreateFeedbackResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="operationStatus" type="xs:string"/>
-                <xs:element name="feedbackId" type="xs:string"/>
-                <xs:element name="feedback" type="tns:feedback"/>
+                <xs:element name="feedbackId" type="xs:string" minOccurs="0"/>
+                <xs:element name="feedback" type="tns:feedback" minOccurs="0"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--  Update Feedback  -->
+    <!-- Update Feedback -->
     <xs:element name="UpdateFeedbackRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="feedbackId" type="xs:string"/>
-                <xs:element name="rating" type="xs:int" minOccurs="0"/>
-                <xs:element name="comment" type="xs:string" minOccurs="0"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="UpdateFeedbackResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="operationStatus" type="xs:string"/>
+                <xs:element name="rating" type="tns:ratingType" minOccurs="0"/>
+                <xs:element name="comment" type="tns:commentType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--  Delete Feedback  -->
+    <xs:element name="UpdateFeedbackResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="operationStatus" type="xs:string"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Delete Feedback -->
     <xs:element name="DeleteFeedbackRequest">
         <xs:complexType>
             <xs:sequence>
@@ -51,65 +85,74 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="DeleteFeedbackResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="operationStatus" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <!--  List Feedback by Company  -->
-    <xs:element name="ListFeedbackByCompanyRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="company" type="xs:string"/>
-                <xs:element name="page" type="xs:int"/>
-                <xs:element name="size" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="ListFeedbackByCompanyResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="operationStatus" type="xs:string"/>
-                <xs:element name="feedbacks" type="tns:feedbackList"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--  List Companies  -->
+    <!-- List Feedbacks by Company -->
+    <xs:element name="ListFeedbackByCompanyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="company" type="tns:companyType"/>
+                <xs:element name="page" type="tns:positiveInt"/>
+                <xs:element name="size" type="tns:positiveInt"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ListFeedbackByCompanyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="operationStatus" type="xs:string"/>
+                <xs:element name="feedbacks" type="tns:feedbackList" minOccurs="0"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- List Companies -->
     <xs:element name="ListCompaniesRequest">
         <xs:complexType/>
     </xs:element>
+
     <xs:element name="ListCompaniesResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="operationStatus" type="xs:string"/>
-                <xs:element name="companies" type="tns:companyList"/>
+                <xs:element name="companies" type="tns:companyList" minOccurs="0"/>
+                <xs:element name="fault" type="fault:FaultType" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
-    <!-- Types -->
+
+    <!-- Complex Types -->
     <xs:complexType name="feedback">
         <xs:sequence>
             <xs:element name="id" type="xs:string"/>
-            <xs:element name="company" type="xs:string"/>
-            <xs:element name="rating" type="xs:int"/>
-            <xs:element name="comment" type="xs:string"/>
+            <xs:element name="company" type="tns:companyType"/>
+            <xs:element name="rating" type="tns:ratingType"/>
+            <xs:element name="comment" type="tns:commentType"/>
             <xs:element name="createdAt" type="xs:dateTime"/>
             <xs:element name="updatedAt" type="xs:dateTime"/>
         </xs:sequence>
     </xs:complexType>
+
     <xs:complexType name="feedbackList">
         <xs:sequence>
             <xs:element name="feedback" type="tns:feedback" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
+
     <xs:complexType name="companyList">
         <xs:sequence>
-            <xs:element name="company" type="xs:string" maxOccurs="unbounded"/>
+            <xs:element name="company" type="tns:companyType" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
+
 </xs:schema>
